@@ -2,6 +2,8 @@ package it.unife.lp.model;
 
 import java.time.LocalDate;
 
+import it.unife.lp.util.IsbnUtil;
+
 public class Book {
     private String isbn;
     private String title;
@@ -11,7 +13,7 @@ public class Book {
 
     public Book(String isbn, String title, String author, int pubblicationYear, String type)
             throws IllegalArgumentException {
-        if (!isValidISBN(isbn)) {
+        if (!IsbnUtil.isValidISBN(isbn)) {
             throw new IllegalArgumentException("Codice ISBN non è valido" + isbn);
         }
         if (pubblicationYear > LocalDate.now().getYear()) {
@@ -25,23 +27,6 @@ public class Book {
         this.author = author;
         this.pubblicationYear = pubblicationYear;
         this.type = type;
-    }
-
-    // Validazione ISBN-13
-    private static boolean isValidISBN(String isbn) {
-        if (!isbn.matches("\\d{13}"))
-            return false;
-
-        int sum = 0;
-        for (int i = 0; i < 12; i++) {
-            int digit = isbn.charAt(i) - '0';
-            sum += (i % 2 == 0) ? digit : digit * 3;
-        }
-
-        int checksum = 10 - (sum % 10);
-        checksum = (checksum == 10) ? 0 : checksum;
-
-        return checksum == (isbn.charAt(12) - '0');
     }
 
     public String getIsbn() {
