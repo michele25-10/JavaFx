@@ -21,6 +21,7 @@ import it.unife.lp.model.Book;
 import it.unife.lp.model.Loan;
 import it.unife.lp.model.User;
 import it.unife.lp.view.RootLayoutController;
+import it.unife.lp.view.UserOverviewController;
 
 public class MainApp extends Application {
     private Stage primaryStage;
@@ -127,8 +128,8 @@ public class MainApp extends Application {
             // Set person overview into the center of root layout.
             rootLayout.setCenter(userOverview);
             // Give the controller access to the main app.
-            // PersonOverviewController controller = loader.getController();
-            // controller.setMainApp(this);
+            UserOverviewController controller = loader.getController();
+            controller.setMainApp(this);
         } catch (IOException e) {
             e.printStackTrace();
         }

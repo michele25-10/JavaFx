@@ -1,42 +1,61 @@
 package it.unife.lp.model;
 
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+
 public class User {
-    private String name;
-    private String surname;
-    private String tel;
+    private final StringProperty name;
+    private final StringProperty surname;
+    private final StringProperty tel;
 
-    // Costruttore predefinito (obbligatorio per Jackson)
+    // Costruttore predefinito (necessario per Jackson)
     public User() {
+        this(null, null, null);
     }
 
+    // Costruttore con parametri
     public User(String name, String surname, String tel) {
-        this.name = name;
-        this.surname = surname;
-        this.tel = tel;
+        this.name = new SimpleStringProperty(name);
+        this.surname = new SimpleStringProperty(surname);
+        this.tel = new SimpleStringProperty(tel);
     }
 
+    // Getter per name
     public String getName() {
-        return name;
-    }
-
-    public String getSurname() {
-        return surname;
-    }
-
-    public String getTel() {
-        return tel;
+        return name.get();
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.name.set(name);
+    }
+
+    public StringProperty nameProperty() {
+        return name;
+    }
+
+    // Getter per surname
+    public String getSurname() {
+        return surname.get();
     }
 
     public void setSurname(String surname) {
-        this.surname = surname;
+        this.surname.set(surname);
+    }
+
+    public StringProperty surnameProperty() {
+        return surname;
+    }
+
+    // Getter per tel
+    public String getTel() {
+        return tel.get();
     }
 
     public void setTel(String tel) {
-        this.tel = tel;
+        this.tel.set(tel);
     }
 
+    public StringProperty telProperty() {
+        return tel;
+    }
 }
