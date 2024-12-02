@@ -1,1 +1,17 @@
-[ ]
+[ {
+  "isbn" : "979-12-222-0043-9",
+  "title" : "Never Finished",
+  "author" : "David Goggins",
+  "pubblicationYear" : 2024,
+  "type" : "Crescita Personale",
+  "available" : true,
+  "pubblicationYearString" : "IntegerProperty [value: 2024]"
+}, {
+  "isbn" : "979-85-844-3162-4",
+  "title" : "Pronoier",
+  "author" : "Steve Allen",
+  "pubblicationYear" : 2022,
+  "type" : "Fantascienza",
+  "available" : true,
+  "pubblicationYearString" : "IntegerProperty [value: 2022]"
+} ]

@@ -22,6 +22,7 @@ import it.unife.lp.model.Book;
 import it.unife.lp.model.Loan;
 import it.unife.lp.model.User;
 import it.unife.lp.util.JsonController;
+import it.unife.lp.view.BookEditDialogController;
 import it.unife.lp.view.BookOverviewController;
 import it.unife.lp.view.RootLayoutController;
 import it.unife.lp.view.UserOverviewController;
@@ -166,11 +167,11 @@ public class MainApp extends Application {
         try {
             // Load the fxml file and create a new stage for the popup dialog.
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(MainApp.class.getResource("view/userEditDialog.fxml"));
+            loader.setLocation(MainApp.class.getResource("view/UserEditDialog.fxml"));
             AnchorPane page = (AnchorPane) loader.load();
             // Create the dialog Stage.
             Stage dialogStage = new Stage();
-            dialogStage.setTitle("Edit Person");
+            dialogStage.setTitle("Edit Utente");
             dialogStage.initModality(Modality.WINDOW_MODAL);
             dialogStage.initOwner(primaryStage);
             Scene scene = new Scene(page);
@@ -180,6 +181,33 @@ public class MainApp extends Application {
             UserEditDialogController controller = loader.getController();
             controller.setDialogStage(dialogStage);
             controller.setUser(user);
+            // Show the dialog and wait until the user closes it
+            dialogStage.showAndWait();
+            return controller.isOkClicked();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean showBookEditDialog(Book book) {
+        try {
+            // Load the fxml file and create a new stage for the popup dialog.
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(MainApp.class.getResource("view/BookEditDialog.fxml"));
+            AnchorPane page = (AnchorPane) loader.load();
+            // Create the dialog Stage.
+            Stage dialogStage = new Stage();
+            dialogStage.setTitle("Edit Libro");
+            dialogStage.initModality(Modality.WINDOW_MODAL);
+            dialogStage.initOwner(primaryStage);
+            Scene scene = new Scene(page);
+            dialogStage.setScene(scene);
+
+            // Set the person into the controller.
+            BookEditDialogController controller = loader.getController();
+            controller.setDialogStage(dialogStage);
+            controller.setBook(book);
             // Show the dialog and wait until the user closes it
             dialogStage.showAndWait();
             return controller.isOkClicked();

@@ -86,7 +86,7 @@ public class BookOverviewController {
             isbnLabel.setText(book.getIsbn());
             titleLabel.setText(book.getTitle());
             authorLabel.setText(book.getAuthor());
-            pubblicationYearLabel.setText("2024");
+            pubblicationYearLabel.setText(book.getPubblicationYearString());
             typeLabel.setText(book.getType());
             availableLabel.setText(book.getAvailable() ? "Disponibile" : "NON disponibile");
         } else {
@@ -119,39 +119,38 @@ public class BookOverviewController {
 
     @FXML
     private void handleNewBook() {
-        /*
-         * Book tempBook = new Book();
-         * boolean okClicked = mainApp.showBookEditDialog(tempBook);
-         * if (okClicked) {
-         * mainApp.getUsersData().add(tempBook);
-         * JsonController.writeAll(new File(MainApp.dataDir + File.separator +
-         * "book.json"), mainApp.getUsersData());
-         * }
-         */
+        Book tempBook = new Book();
+        boolean okClicked = mainApp.showBookEditDialog(tempBook);
+        if (okClicked) {
+            mainApp.getBooksData().add(tempBook);
+            JsonController.writeAll(new File(MainApp.dataDir + File.separator +
+                    "book.json"), mainApp.getBooksData());
+        }
+
     }
 
     @FXML
     private void handleEditBook() {
         Book selectedBook = bookTable.getSelectionModel().getSelectedItem();
-        /*
-         * if (selectedBook != null) {
-         * boolean okClicked = mainApp.showBookEditDialog(selectedBook);
-         * if (okClicked) {
-         * showBookDetails(selectedBook);
-         * JsonController.writeAll(new File(MainApp.dataDir + File.separator +
-         * "book.json"),
-         * mainApp.getUsersData());
-         * }
-         * } else {
-         * // Nothing selected.
-         * Alert alert = new Alert(AlertType.WARNING);
-         * alert.initOwner(mainApp.getPrimaryStage());
-         * alert.setTitle("Nessuna selezione");
-         * alert.setHeaderText("Nessun libro selezionato");
-         * alert.setContentText("Per favore seleziona un libro dalla tabella");
-         * alert.showAndWait();
-         * }
-         */
+
+        if (selectedBook != null) {
+            boolean okClicked = mainApp.showBookEditDialog(selectedBook);
+            if (okClicked) {
+                showBookDetails(selectedBook);
+                JsonController.writeAll(new File(MainApp.dataDir + File.separator +
+                        "book.json"),
+                        mainApp.getBooksData());
+            }
+        } else {
+            // Nothing selected.
+            Alert alert = new Alert(AlertType.WARNING);
+            alert.initOwner(mainApp.getPrimaryStage());
+            alert.setTitle("Nessuna selezione");
+            alert.setHeaderText("Nessun libro selezionato");
+            alert.setContentText("Per favore seleziona un libro dalla tabella");
+            alert.showAndWait();
+        }
+
     }
 
     @FXML

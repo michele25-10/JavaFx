@@ -5,39 +5,43 @@ import java.time.LocalDate;
 import it.unife.lp.util.IsbnUtil;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
 public class Book {
-    private StringProperty isbn;
-    private StringProperty title;
-    private StringProperty author;
-    private IntegerProperty pubblicationYear;
-    private StringProperty type;
-    private boolean available;
+    private final StringProperty isbn;
+    private final StringProperty title;
+    private final StringProperty author;
+    private final IntegerProperty pubblicationYear;
+    private final StringProperty type;
+    private final BooleanProperty available;
 
-    // Costruttore predefinito (obbligatorio per Jackson)
     public Book() {
+        this("", "", "", 0, "");
     }
 
-    public Book(StringProperty isbn, StringProperty title, StringProperty author, IntegerProperty pubblicationYear,
-            StringProperty type)
+    public Book(String isbn, String title, String author, int pubblicationYear, String type)
             throws IllegalArgumentException {
-        if (!IsbnUtil.isValidISBN(isbn.get())) {
-            throw new IllegalArgumentException("Codice ISBN non è valido" + isbn);
+        // Validazioni
+        if (!isbn.isEmpty() && !IsbnUtil.isValidISBN(isbn)) {
+            throw new IllegalArgumentException("Codice ISBN non valido: " + isbn);
         }
-        if (pubblicationYear.get() > LocalDate.now().getYear()) {
-            throw new IllegalArgumentException("L\'anno di pubblicazione non è valido");
+        if (pubblicationYear > LocalDate.now().getYear()) {
+            throw new IllegalArgumentException("Anno di pubblicazione non valido");
         }
 
-        // Aggiungere il controllo per capire se l'isbn è univoco o meno.
-
-        this.isbn = isbn;
-        this.title = title;
-        this.author = author;
-        this.pubblicationYear = pubblicationYear;
-        this.type = type;
+        // Inizializzazione delle proprietà
+        this.isbn = new SimpleStringProperty(isbn);
+        this.title = new SimpleStringProperty(title);
+        this.author = new SimpleStringProperty(author);
+        this.pubblicationYear = new SimpleIntegerProperty(pubblicationYear);
+        this.type = new SimpleStringProperty(type);
+        this.available = new SimpleBooleanProperty(true); // Valore predefinito: disponibile
     }
 
+    // Getter
     public String getIsbn() {
         return isbn.get();
     }
@@ -58,35 +62,65 @@ public class Book {
         return type.get();
     }
 
-    public boolean getAvailable() {
-        return available;
+    public boolean isAvailable() {
+        return available.get();
     }
 
-    public void setIsbn(StringProperty isbn) {
-        this.isbn = isbn;
+    // Setter
+    public void setIsbn(String isbn) {
+        this.isbn.set(isbn);
     }
 
-    public void setAuthor(StringProperty author) {
-        this.author = author;
+    public void setTitle(String title) {
+        this.title.set(title);
     }
 
-    public void setTitle(StringProperty title) {
-        this.title = title;
+    public void setAuthor(String author) {
+        this.author.set(author);
     }
 
-    public void setPubblicationYear(IntegerProperty pubblicationYear) {
-        this.pubblicationYear = pubblicationYear;
+    public void setPubblicationYear(int pubblicationYear) {
+        this.pubblicationYear.set(pubblicationYear);
     }
 
-    public void setType(StringProperty type) {
-        this.type = type;
-    }
-
-    public StringProperty titleProperty() {
-        return this.title;
+    public void setType(String type) {
+        this.type.set(type);
     }
 
     public void setAvailable(boolean available) {
-        this.available = available;
+        this.available.set(available);
+    }
+
+    // Property accessors
+    public StringProperty isbnProperty() {
+        return isbn;
+    }
+
+    public StringProperty titleProperty() {
+        return title;
+    }
+
+    public StringProperty authorProperty() {
+        return author;
+    }
+
+    public IntegerProperty pubblicationYearProperty() {
+        return pubblicationYear;
+    }
+
+    public StringProperty typeProperty() {
+        return type;
+    }
+
+    public BooleanProperty availableProperty() {
+        return available;
+    }
+
+    public String getPubblicationYearString() {
+        return pubblicationYear.toString();
+    }
+
+    public boolean getAvailable() {
+        return available.get();
     }
 }
