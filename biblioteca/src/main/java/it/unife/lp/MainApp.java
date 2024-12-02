@@ -70,8 +70,10 @@ public class MainApp extends Application {
         usersData = loadDataFromFile(new File(dataDir, "user.json"), User[].class);
         loansData = loadDataFromFile(new File(dataDir, "loan.json"), Loan[].class);
 
+        System.out.println(usersData);
+
         initRootLayout();
-        // showPersonOverview();
+        showLoan();
     }
 
     private <T> ObservableList<T> loadDataFromFile(File file, Class<T[]> clazz) {
@@ -81,6 +83,7 @@ public class MainApp extends Application {
             T[] data = mapper.readValue(file, clazz);
             return FXCollections.observableArrayList(data);
         } catch (IOException e) {
+            System.err.println(e.getMessage());
             System.err.println("Errore nel caricamento dei dati dal file " + file.getName());
             return FXCollections.observableArrayList();
         }

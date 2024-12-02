@@ -11,6 +11,10 @@ public class Loan {
     private LocalDate startLoan;
     private LocalDate endLoan;
 
+    // Costruttore predefinito (obbligatorio per Jackson)
+    public Loan() {
+    }
+
     public Loan(String isbn, String name, String surname, LocalDate startLoan, LocalDate endLoan)
             throws IllegalArgumentException {
         if (!IsbnUtil.isValidISBN(isbn)) {

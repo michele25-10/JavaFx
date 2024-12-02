@@ -11,6 +11,10 @@ public class Book {
     private int pubblicationYear;
     private String type;
 
+    // Costruttore predefinito (obbligatorio per Jackson)
+    public Book() {
+    }
+
     public Book(String isbn, String title, String author, int pubblicationYear, String type)
             throws IllegalArgumentException {
         if (!IsbnUtil.isValidISBN(isbn)) {

@@ -5,6 +5,10 @@ public class User {
     private String surname;
     private String tel;
 
+    // Costruttore predefinito (obbligatorio per Jackson)
+    public User() {
+    }
+
     public User(String name, String surname, String tel) {
         this.name = name;
         this.surname = surname;
