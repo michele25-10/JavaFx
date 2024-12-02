@@ -81,4 +81,48 @@ public class UserOverviewController {
             telLabel.setText("");
         }
     }
+
+    @FXML
+    private void handleDeleteUser() {
+        int selectedIndex = userTable.getSelectionModel().getSelectedIndex();
+        if (selectedIndex >= 0) {
+            userTable.getItems().remove(selectedIndex);
+        } else {
+            // Nothing selected.
+            Alert alert = new Alert(AlertType.WARNING);
+            alert.initOwner(mainApp.getPrimaryStage());
+            alert.setTitle("Nessuna selezione");
+            alert.setHeaderText("Nessun utente selezionato");
+            alert.setContentText("Per favore seleziona un utente dalla tabella");
+            alert.showAndWait();
+        }
+    }
+
+    @FXML
+    private void handleNewUser() {
+        User tempUser = new User();
+        boolean okClicked = mainApp.showUserEditDialog(tempUser);
+        if (okClicked) {
+            mainApp.getUsersData().add(tempUser);
+        }
+    }
+
+    @FXML
+    private void handleEditUser() {
+        User selectedUser = userTable.getSelectionModel().getSelectedItem();
+        if (selectedUser != null) {
+            boolean okClicked = mainApp.showUserEditDialog(selectedUser);
+            if (okClicked) {
+                showUserDetails(selectedUser);
+            }
+        } else {
+            // Nothing selected.
+            Alert alert = new Alert(AlertType.WARNING);
+            alert.initOwner(mainApp.getPrimaryStage());
+            alert.setTitle("No Selection");
+            alert.setHeaderText("No Person Selected");
+            alert.setContentText("Please select a person in the table.");
+            alert.showAndWait();
+        }
+    }
 }

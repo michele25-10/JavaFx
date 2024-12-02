@@ -59,9 +59,9 @@
                               <Text layoutX="10.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Dati personali dell'utente" />
                               <ButtonBar layoutX="204.0" layoutY="236.0" prefHeight="40.0" prefWidth="200.0" AnchorPane.bottomAnchor="30.0" AnchorPane.rightAnchor="30.0">
                                  <buttons>
-                                    <Button mnemonicParsing="false" text="Nuovo" />
-                                    <Button mnemonicParsing="false" text="Modifica" />
-                                    <Button mnemonicParsing="false" text="Elimina" />
+                                    <Button mnemonicParsing="false" onAction="#handleNewUser" text="Nuovo" />
+                                    <Button mnemonicParsing="false" onAction="#handleEditUser" text="Modifica" />
+                                    <Button mnemonicParsing="false" onAction="#handleDeleteUser" text="Elimina" />
                                  </buttons>
                               </ButtonBar>
                            </children>
