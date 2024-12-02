@@ -1,8 +1,11 @@
 package it.unife.lp.view;
 
+import java.io.File;
+
 import it.unife.lp.MainApp;
 import it.unife.lp.model.User;
 import it.unife.lp.util.DateUtil;
+import it.unife.lp.util.JsonController;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -87,6 +90,7 @@ public class UserOverviewController {
         int selectedIndex = userTable.getSelectionModel().getSelectedIndex();
         if (selectedIndex >= 0) {
             userTable.getItems().remove(selectedIndex);
+            JsonController.writeAll(new File(MainApp.dataDir + File.separator + "user.json"), mainApp.getUsersData());
         } else {
             // Nothing selected.
             Alert alert = new Alert(AlertType.WARNING);
@@ -104,6 +108,7 @@ public class UserOverviewController {
         boolean okClicked = mainApp.showUserEditDialog(tempUser);
         if (okClicked) {
             mainApp.getUsersData().add(tempUser);
+            JsonController.writeAll(new File(MainApp.dataDir + File.separator + "user.json"), mainApp.getUsersData());
         }
     }
 
@@ -114,14 +119,16 @@ public class UserOverviewController {
             boolean okClicked = mainApp.showUserEditDialog(selectedUser);
             if (okClicked) {
                 showUserDetails(selectedUser);
+                JsonController.writeAll(new File(MainApp.dataDir + File.separator + "user.json"),
+                        mainApp.getUsersData());
             }
         } else {
             // Nothing selected.
             Alert alert = new Alert(AlertType.WARNING);
             alert.initOwner(mainApp.getPrimaryStage());
-            alert.setTitle("No Selection");
-            alert.setHeaderText("No Person Selected");
-            alert.setContentText("Please select a person in the table.");
+            alert.setTitle("Nessuna selezione");
+            alert.setHeaderText("Nessun utente selezionato");
+            alert.setContentText("Per favore seleziona un utente dalla tabella");
             alert.showAndWait();
         }
     }

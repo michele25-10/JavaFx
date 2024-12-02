@@ -1,13 +1,17 @@
 package it.unife.lp.view;
 
+import java.io.File;
+
+import it.unife.lp.MainApp;
 import it.unife.lp.model.User;
+import it.unife.lp.util.JsonController;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
-public class userEditDialogController {
+public class UserEditDialogController {
     @FXML
     private TextField nameField;
     @FXML
@@ -87,13 +91,14 @@ public class userEditDialogController {
     private boolean isInputValid() {
         String errorMessage = "";
         if (nameField.getText() == null || nameField.getText().length() == 0) {
-            errorMessage += "No valid first name!\n";
+            errorMessage += "Nome non valido!\n";
         }
         if (surnameField.getText() == null || surnameField.getText().length() == 0) {
-            errorMessage += "No valid last name!\n";
+            errorMessage += "Cognome non valido!\n";
         }
-        if (telField.getText() == null || telField.getText().length() == 0) {
-            errorMessage += "No valid street!\n";
+        if (telField.getText() == null || telField.getText().length() == 0 || telField.getText().length() > 10) {
+
+            errorMessage += "Numero di telefono non valido!\n";
         }
         if (errorMessage.length() == 0) {
             return true;

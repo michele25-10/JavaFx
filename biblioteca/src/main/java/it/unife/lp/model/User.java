@@ -1,5 +1,7 @@
 package it.unife.lp.model;
 
+import java.util.Objects;
+
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
@@ -58,4 +60,5 @@ public class User {
     public StringProperty telProperty() {
         return tel;
     }
+
 }

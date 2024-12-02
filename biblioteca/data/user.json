@@ -1,7 +1,9 @@
-[
-    {
-        "name": "Michele",
-        "surname": "Gabrieli",
-        "tel": "3899982052"
-    }
-]
+[ {
+  "name" : "Michele",
+  "surname" : "Gabrieli",
+  "tel" : "3899982052"
+}, {
+  "name" : "Marco",
+  "surname" : "Malanchin",
+  "tel" : "2514895660"
+} ]

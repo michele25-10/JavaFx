@@ -21,15 +21,16 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import it.unife.lp.model.Book;
 import it.unife.lp.model.Loan;
 import it.unife.lp.model.User;
+import it.unife.lp.util.JsonController;
 import it.unife.lp.view.RootLayoutController;
 import it.unife.lp.view.UserOverviewController;
-import it.unife.lp.view.userEditDialogController;
+import it.unife.lp.view.UserEditDialogController;
 
 public class MainApp extends Application {
     private Stage primaryStage;
     private BorderPane rootLayout;
 
-    private File dataDir = new File(System.getProperty("user.dir") + File.separator + "data");
+    public static File dataDir = new File(System.getProperty("user.dir") + File.separator + "data");
 
     private ObservableList<Book> booksData = FXCollections.observableArrayList();
     private ObservableList<User> usersData = FXCollections.observableArrayList();
@@ -49,10 +50,6 @@ public class MainApp extends Application {
 
     public Stage getPrimaryStage() {
         return primaryStage;
-    }
-
-    public File getDataDir() {
-        return dataDir;
     }
 
     @Override
@@ -77,27 +74,14 @@ public class MainApp extends Application {
         }
 
         // la directory data esiste già allora
-        booksData = loadDataFromFile(new File(dataDir, "book.json"), Book[].class);
-        usersData = loadDataFromFile(new File(dataDir, "user.json"), User[].class);
-        loansData = loadDataFromFile(new File(dataDir, "loan.json"), Loan[].class);
+        booksData = JsonController.loadData(new File(dataDir, "book.json"), Book.class);
+        usersData = JsonController.loadData(new File(dataDir, "user.json"), User.class);
+        loansData = JsonController.loadData(new File(dataDir, "loan.json"), Loan.class);
 
         System.out.println(usersData);
 
         initRootLayout();
         showLoan();
-    }
-
-    private <T> ObservableList<T> loadDataFromFile(File file, Class<T[]> clazz) {
-        try {
-            ObjectMapper mapper = new ObjectMapper();
-            mapper.registerModule(new JavaTimeModule());
-            T[] data = mapper.readValue(file, clazz);
-            return FXCollections.observableArrayList(data);
-        } catch (IOException e) {
-            System.err.println(e.getMessage());
-            System.err.println("Errore nel caricamento dei dati dal file " + file.getName());
-            return FXCollections.observableArrayList();
-        }
     }
 
     private void createAndInitializeJsonFile(File file, Object initialData) throws IOException {
@@ -192,7 +176,7 @@ public class MainApp extends Application {
             dialogStage.setScene(scene);
 
             // Set the person into the controller.
-            userEditDialogController controller = loader.getController();
+            UserEditDialogController controller = loader.getController();
             controller.setDialogStage(dialogStage);
             controller.setUser(user);
             // Show the dialog and wait until the user closes it
