@@ -22,6 +22,7 @@ import it.unife.lp.model.Book;
 import it.unife.lp.model.Loan;
 import it.unife.lp.model.User;
 import it.unife.lp.util.JsonController;
+import it.unife.lp.view.BookOverviewController;
 import it.unife.lp.view.RootLayoutController;
 import it.unife.lp.view.UserOverviewController;
 import it.unife.lp.view.UserEditDialogController;
@@ -81,7 +82,7 @@ public class MainApp extends Application {
         System.out.println(usersData);
 
         initRootLayout();
-        showLoan();
+        showUser();
     }
 
     private void createAndInitializeJsonFile(File file, Object initialData) throws IOException {
@@ -138,8 +139,8 @@ public class MainApp extends Application {
             // Set person overview into the center of root layout.
             rootLayout.setCenter(bookOverview);
             // Give the controller access to the main app.
-            // PersonOverviewController controller = loader.getController();
-            // controller.setMainApp(this);
+            BookOverviewController controller = loader.getController();
+            controller.setMainApp(this);
         } catch (IOException e) {
             e.printStackTrace();
         }

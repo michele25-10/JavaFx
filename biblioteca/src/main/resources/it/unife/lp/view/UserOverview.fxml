@@ -68,7 +68,7 @@
                         </AnchorPane>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                            <children>
-                              <TableView layoutX="76.0" layoutY="14.0" prefHeight="172.8" prefWidth="400.8" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="30.0">
+                              <TableView layoutX="76.0" layoutY="14.0" prefHeight="172.8" prefWidth="400.8" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="30.0">
                                  <columns>
                                     <TableColumn prefWidth="75.0" text="Libro" />
                                     <TableColumn prefWidth="75.0" text="ISBN" />
@@ -79,6 +79,14 @@
                                     <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                                  </columnResizePolicy>
                               </TableView>
+                              <ButtonBar layoutX="11.0" layoutY="246.0" minWidth="-Infinity" prefHeight="40.0" prefWidth="500.0" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="11.399999999999977">
+                                 <buttons>
+                                    <Button mnemonicParsing="false" onAction="#handleNewUser" text="Nuovo" />
+                                    <Button mnemonicParsing="false" onAction="#handleEditUser" text="Modifica" />
+                                    <Button maxWidth="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#handleDeleteUser" prefHeight="26.0" prefWidth="150.0" text="Riconsegnato" />
+                                    <Button mnemonicParsing="false" onAction="#handleDeleteUser" text="Elimina" />
+                                 </buttons>
+                              </ButtonBar>
                               <Text layoutX="14.0" layoutY="18.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Prestiti di questo utente:" />
                            </children>
                         </AnchorPane>
