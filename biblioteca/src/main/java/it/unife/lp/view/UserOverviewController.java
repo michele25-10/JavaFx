@@ -1,17 +1,20 @@
 package it.unife.lp.view;
 
 import java.io.File;
+import java.util.stream.Collectors;
 
 import it.unife.lp.MainApp;
 import it.unife.lp.model.User;
-import it.unife.lp.util.DateUtil;
 import it.unife.lp.util.JsonController;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 
 public class UserOverviewController {
     @FXML
@@ -26,6 +29,9 @@ public class UserOverviewController {
     private Label surnameLabel;
     @FXML
     private Label telLabel;
+    @FXML
+    private TextField filterField;
+
     // Reference to the main application.
     private MainApp mainApp;
 
@@ -132,4 +138,25 @@ public class UserOverviewController {
             alert.showAndWait();
         }
     }
+
+    @FXML
+    private void onChangeFilterField() {
+        String search = filterField.getText().toLowerCase();
+        System.out.println("ricerca: " + search);
+
+        if (!search.isEmpty()) {
+            ObservableList<User> filteredUsers = mainApp.getUsersData().stream()
+                    .filter(user -> user.getName().toLowerCase().contains(search)
+                            || user.getSurname().toLowerCase().contains(search)
+                            || user.getTel().toLowerCase().contains(search))
+                    .collect(Collectors.toCollection(FXCollections::observableArrayList));
+
+            System.out.println("Dati filtrati: " + filteredUsers);
+            userTable.setItems(filteredUsers);
+        } else {
+            // Se la ricerca è vuota, ripristina la lista originale
+            userTable.setItems(mainApp.getUsersData());
+        }
+    }
+
 }
