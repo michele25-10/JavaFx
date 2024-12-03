@@ -2,6 +2,8 @@ package it.unife.lp.model;
 
 import java.time.LocalDate;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import it.unife.lp.util.IsbnUtil;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
@@ -116,11 +118,13 @@ public class Book {
         return available;
     }
 
-    public String getPubblicationYearString() {
-        return pubblicationYear.toString();
-    }
-
     public boolean getAvailable() {
         return available.get();
     }
+
+    @JsonIgnore
+    public String getPubblicationYearString() {
+        return pubblicationYear.getValue().toString();
+    }
+
 }

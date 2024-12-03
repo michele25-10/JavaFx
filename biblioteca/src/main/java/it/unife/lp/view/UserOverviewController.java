@@ -1,9 +1,12 @@
 package it.unife.lp.view;
 
 import java.io.File;
+import java.time.LocalDate;
 import java.util.stream.Collectors;
 
 import it.unife.lp.MainApp;
+import it.unife.lp.model.Book;
+import it.unife.lp.model.Loan;
 import it.unife.lp.model.User;
 import it.unife.lp.util.JsonController;
 import javafx.collections.FXCollections;
@@ -32,8 +35,21 @@ public class UserOverviewController {
     @FXML
     private TextField filterField;
 
+    @FXML
+    private TableView<Loan> loanTable;
+    @FXML
+    private TableColumn<Loan, String> isbnColumn;
+    @FXML
+    private TableColumn<Loan, String> titleColumn;
+    @FXML
+    private TableColumn<Loan, LocalDate> endDateColumn;
+    @FXML
+    private TableColumn<Loan, LocalDate> startDateColumn;
+
     // Reference to the main application.
     private MainApp mainApp;
+
+    private Loan selectedLoan;
 
     /**
      * The constructor.
@@ -58,6 +74,20 @@ public class UserOverviewController {
         // Listen for selection changes and show the person details when changed.
         userTable.getSelectionModel().selectedItemProperty().addListener(
                 (observable, oldValue, newValue) -> showUserDetails(newValue));
+
+        // Initialize the person table with the two columns.
+        isbnColumn.setCellValueFactory(
+                cellData -> cellData.getValue().isbnProperty());
+        titleColumn.setCellValueFactory(
+                cellData -> cellData.getValue().titleProperty());
+        endDateColumn.setCellValueFactory(
+                cellData -> cellData.getValue().endLoanProperty());
+        startDateColumn.setCellValueFactory(
+                cellData -> cellData.getValue().startLoanProperty());
+
+        // Listen for selection changes and show the person details when changed.
+        loanTable.getSelectionModel().selectedItemProperty().addListener(
+                (observable, oldValue, newValue) -> selectedLoan = newValue);
     }
 
     /**
@@ -83,6 +113,13 @@ public class UserOverviewController {
             nameLabel.setText(user.getName());
             surnameLabel.setText(user.getSurname());
             telLabel.setText(user.getTel());
+
+            // resetto l'ultimo loan selezionato
+            selectedLoan = null;
+
+            loanTable.setItems(mainApp.getLoansData().stream().filter(
+                    loan -> loan.getName().equals(user.getName()) && loan.getSurname().equals(user.getSurname()))
+                    .collect(Collectors.toCollection(FXCollections::observableArrayList)));
         } else {
             // Person is null, remove all the text.
             nameLabel.setText("");
@@ -159,4 +196,170 @@ public class UserOverviewController {
         }
     }
 
+    // GESTIONE DEI LOAN
+    @FXML
+    private void handleNewLoan() {
+        // prima di poter creare un prestito devi selezionare l'utente di interesse
+        User selectedUser = userTable.getSelectionModel().getSelectedItem();
+        if (selectedUser != null) {
+
+            Loan tempLoan = new Loan();
+            boolean okClicked = mainApp.showUserLoanEditDialog(tempLoan, selectedUser);
+            if (okClicked) {
+                mainApp.getLoansData().add(tempLoan);
+
+                // Rendo il libro non disponibile nel magazzino
+                mainApp.getBooksData().forEach(book -> {
+                    if (book.getIsbn().equals(tempLoan.getIsbn()) && book.getTitle().equals(tempLoan.getTitle())) {
+                        book.setAvailable(false);
+                    }
+                });
+                JsonController.writeAll(new File(MainApp.dataDir + File.separator + "loan.json"),
+                        mainApp.getLoansData());
+                JsonController.writeAll(new File(MainApp.dataDir + File.separator + "book.json"),
+                        mainApp.getBooksData());
+            }
+        } else {
+            // Nothing selected.
+            Alert alert = new Alert(AlertType.WARNING);
+            alert.initOwner(mainApp.getPrimaryStage());
+            alert.setTitle("Nessuna selezione");
+            alert.setHeaderText("Nessun utente selezionato");
+            alert.setContentText("Per favore seleziona un utente dalla tabella");
+            alert.showAndWait();
+        }
+    }
+
+    @FXML
+    private void handleEditLoan() {
+        User selectedUser = userTable.getSelectionModel().getSelectedItem();
+
+        String previousSelectedIsbn = selectedLoan.getIsbn();
+        String previousTitle = selectedLoan.getTitle();
+
+        if (selectedUser != null && selectedLoan != null) {
+            boolean okClicked = mainApp.showUserLoanEditDialog(selectedLoan, selectedUser);
+            if (okClicked) {
+                // se ho modificato l'isbn allora devo andare a rendere disponibile il libro di
+                // prima ed rendere non dispobibile il nuovo libro
+                if (!selectedLoan.getIsbn().equals(previousSelectedIsbn)
+                        && !selectedLoan.getTitle().equals(previousTitle)) {
+                    mainApp.getBooksData().forEach(book -> {
+                        // Rendo il libro selezionato precedentemente disponibile
+                        if (book.getIsbn().equals(previousSelectedIsbn) && book.getTitle().equals(previousTitle)) {
+                            book.setAvailable(true);
+                        }
+
+                        // Rendo il libro modificato non disponibile a magazzino
+                        if (book.getIsbn().equals(selectedLoan.getIsbn())
+                                && book.getTitle().equals(selectedLoan.getTitle())) {
+                            book.setAvailable(false);
+
+                        }
+                    });
+                }
+
+                JsonController.writeAll(new File(MainApp.dataDir + File.separator +
+                        "loan.json"),
+                        mainApp.getLoansData());
+
+                JsonController.writeAll(new File(MainApp.dataDir + File.separator +
+                        "book.json"),
+                        mainApp.getLoansData());
+
+            }
+        } else {
+            // Nothing selected.
+            Alert alert = new Alert(AlertType.WARNING);
+            alert.initOwner(mainApp.getPrimaryStage());
+            alert.setTitle("Nessuna selezione");
+            alert.setHeaderText("Nessun utente e prestito selezionato");
+            alert.setContentText("Per favore seleziona un utente o un prestito dalla tabella");
+            alert.showAndWait();
+        }
+    }
+
+    @FXML
+    private void handleDeleteLoan() {
+        User selectedUser = userTable.getSelectionModel().getSelectedItem();
+        if (selectedUser != null) {
+            int selectedIndex = loanTable.getSelectionModel().getSelectedIndex();
+            selectedLoan = loanTable.getSelectionModel().getSelectedItem();
+            if (selectedIndex >= 0) {
+                mainApp.getBooksData().forEach(book -> {
+                    if (selectedLoan.getIsbn().equals(book.getIsbn())
+                            && selectedLoan.getTitle().equals(book.getTitle())) {
+                        book.setAvailable(true);
+                    }
+                });
+                loanTable.getItems().remove(selectedIndex);
+                JsonController.writeAll(new File(MainApp.dataDir + File.separator + "loan.json"),
+                        mainApp.getLoansData());
+
+                JsonController.writeAll(new File(MainApp.dataDir + File.separator + "book.json"),
+                        mainApp.getBooksData());
+            } else {
+                // Nothing selected.
+                Alert alert = new Alert(AlertType.WARNING);
+                alert.initOwner(mainApp.getPrimaryStage());
+                alert.setTitle("Nessuna selezione");
+                alert.setHeaderText("Nessun prestito selezionato");
+                alert.setContentText("Per favore seleziona un prestito dell'utente dalla tabella");
+                alert.showAndWait();
+            }
+        } else {
+            // Nothing selected.
+            Alert alert = new Alert(AlertType.WARNING);
+            alert.initOwner(mainApp.getPrimaryStage());
+            alert.setTitle("Nessuna selezione");
+            alert.setHeaderText("Nessun utente selezionato");
+            alert.setContentText("Per favore seleziona un utente dalla tabella");
+            alert.showAndWait();
+        }
+    }
+
+    @FXML
+    private void handleFinishLoad() {
+        User selectedUser = userTable.getSelectionModel().getSelectedItem();
+        if (selectedUser != null) {
+            selectedLoan = loanTable.getSelectionModel().getSelectedItem();
+            if (selectedLoan != null) {
+                mainApp.getLoansData().forEach(loan -> {
+                    if (loan.getIsbn().equals(selectedLoan.getIsbn())
+                            && loan.getTitle().equals(selectedLoan.getTitle())) {
+                        loan.setFinished(true);
+                    }
+                });
+
+                mainApp.getBooksData().forEach(book -> {
+                    if (book.getIsbn().equals(selectedLoan.getIsbn())
+                            && book.getTitle().equals(selectedLoan.getTitle())) {
+                        book.setAvailable(true);
+                    }
+                });
+
+                JsonController.writeAll(new File(MainApp.dataDir + File.separator + "loan.json"),
+                        mainApp.getLoansData());
+
+                JsonController.writeAll(new File(MainApp.dataDir + File.separator + "book.json"),
+                        mainApp.getBooksData());
+            } else {
+                // Nothing selected.
+                Alert alert = new Alert(AlertType.WARNING);
+                alert.initOwner(mainApp.getPrimaryStage());
+                alert.setTitle("Nessuna selezione");
+                alert.setHeaderText("Nessun prestito selezionato");
+                alert.setContentText("Per favore seleziona un prestito dell'utente dalla tabella");
+                alert.showAndWait();
+            }
+        } else {
+            // Nothing selected.
+            Alert alert = new Alert(AlertType.WARNING);
+            alert.initOwner(mainApp.getPrimaryStage());
+            alert.setTitle("Nessuna selezione");
+            alert.setHeaderText("Nessun utente selezionato");
+            alert.setContentText("Per favore seleziona un utente dalla tabella");
+            alert.showAndWait();
+        }
+    }
 }

@@ -27,6 +27,7 @@ import it.unife.lp.view.BookOverviewController;
 import it.unife.lp.view.RootLayoutController;
 import it.unife.lp.view.UserOverviewController;
 import it.unife.lp.view.UserEditDialogController;
+import it.unife.lp.view.UserLoanEditDialogController;
 
 public class MainApp extends Application {
     private Stage primaryStage;
@@ -208,6 +209,33 @@ public class MainApp extends Application {
             BookEditDialogController controller = loader.getController();
             controller.setDialogStage(dialogStage);
             controller.setBook(book);
+            // Show the dialog and wait until the user closes it
+            dialogStage.showAndWait();
+            return controller.isOkClicked();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean showUserLoanEditDialog(Loan loan, User user) {
+        try {
+            // Load the fxml file and create a new stage for the popup dialog.
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(MainApp.class.getResource("view/UserLoanEditDialog.fxml"));
+            AnchorPane page = (AnchorPane) loader.load();
+            // Create the dialog Stage.
+            Stage dialogStage = new Stage();
+            dialogStage.setTitle("Edit Loan");
+            dialogStage.initModality(Modality.WINDOW_MODAL);
+            dialogStage.initOwner(primaryStage);
+            Scene scene = new Scene(page);
+            dialogStage.setScene(scene);
+
+            // Set the person into the controller.
+            UserLoanEditDialogController controller = loader.getController();
+            controller.setDialogStage(dialogStage);
+            controller.setLoan(loan, user);
             // Show the dialog and wait until the user closes it
             dialogStage.showAndWait();
             return controller.isOkClicked();

@@ -4,14 +4,26 @@
   "author" : "David Goggins",
   "pubblicationYear" : 2024,
   "type" : "Crescita Personale",
-  "available" : true,
-  "pubblicationYearString" : "IntegerProperty [value: 2024]"
+  "available" : true
 }, {
   "isbn" : "979-85-844-3162-4",
   "title" : "Pronoier",
   "author" : "Steve Allen",
   "pubblicationYear" : 2022,
   "type" : "Fantascienza",
-  "available" : true,
-  "pubblicationYearString" : "IntegerProperty [value: 2022]"
+  "available" : true
+}, {
+  "isbn" : "979-85-402-8785-2",
+  "title" : "Il grande libro degli investimenti finanziari",
+  "author" : "Henry D. Stone",
+  "pubblicationYear" : 2020,
+  "type" : "Finanza",
+  "available" : true
+}, {
+  "isbn" : "978-88-3620-015-3",
+  "title" : "Deep work",
+  "author" : "Cal Newport",
+  "pubblicationYear" : 2023,
+  "type" : "Crescita personale",
+  "available" : true
 } ]
