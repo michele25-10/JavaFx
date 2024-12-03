@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="750.0" xmlns="http://javafx.com/javafx/20.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unife.lp.view.LoanOverviewController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="750.0" xmlns="http://javafx.com/javafx/20.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unife.lp.view.HistoryLoanOverviewController">
    <children>
       <TableView fx:id="loanTable" layoutX="226.0" layoutY="83.0" prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="50.0">
         <columns>
@@ -29,7 +29,7 @@
             <Button mnemonicParsing="false" onAction="#handlePrintPreview" text="Stampa" />
          </buttons>
       </ButtonBar>
-      <Text layoutX="14.0" layoutY="29.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Lista dei prestiti attivi, non ancora riconsegnati:" />
+      <Text layoutX="14.0" layoutY="29.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Storico dei prestiti" />
       <TextField fx:id="filterField" layoutX="499.0" layoutY="12.0" onKeyPressed="#onChangeFilterField" prefHeight="26.0" prefWidth="238.0" text="Cerca..." />
    </children>
 </AnchorPane>

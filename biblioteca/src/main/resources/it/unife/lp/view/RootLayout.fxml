@@ -11,17 +11,18 @@
         <menus>
           <Menu mnemonicParsing="false" text="Libri">
             <items>
-              <MenuItem text="Visualizza Libri" onAction="#handleBook"/>
+              <MenuItem onAction="#handleBook" text="Visualizza Libri" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Utenti">
             <items>
-              <MenuItem text="Gestisci Utenti" onAction="#handleUser"/>
+              <MenuItem onAction="#handleUser" text="Gestisci Utenti" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Prestiti">
             <items>
-              <MenuItem text="Gestisci Prestiti" onAction="#handleLoan"/>
+              <MenuItem onAction="#handleLoan" text="Prestiti attivi" />
+                  <MenuItem onAction="#handleHistoryLoan" text="Storico dei prestiti" />
             </items>
           </Menu>
         </menus>

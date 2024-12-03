@@ -1,1 +1,17 @@
-[ ]
+[ {
+  "isbn" : "978-88-3620-015-3",
+  "name" : "Michele",
+  "surname" : "Gabrieli",
+  "title" : "Deep work",
+  "startLoan" : [ 2024, 12, 1 ],
+  "endLoan" : [ 2025, 1, 1 ],
+  "finished" : false
+}, {
+  "isbn" : "979-85-844-3162-4",
+  "name" : "Marco",
+  "surname" : "Malanchin",
+  "title" : "Pronoier",
+  "startLoan" : [ 2024, 12, 2 ],
+  "endLoan" : [ 2025, 2, 3 ],
+  "finished" : false
+} ]

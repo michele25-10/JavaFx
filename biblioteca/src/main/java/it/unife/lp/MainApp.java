@@ -13,6 +13,7 @@ import javafx.stage.Stage;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -24,6 +25,8 @@ import it.unife.lp.model.User;
 import it.unife.lp.util.JsonController;
 import it.unife.lp.view.BookEditDialogController;
 import it.unife.lp.view.BookOverviewController;
+import it.unife.lp.view.HistoryLoanOverviewController;
+import it.unife.lp.view.LoanOverviewController;
 import it.unife.lp.view.RootLayoutController;
 import it.unife.lp.view.UserOverviewController;
 import it.unife.lp.view.UserEditDialogController;
@@ -157,8 +160,24 @@ public class MainApp extends Application {
             // Set person overview into the center of root layout.
             rootLayout.setCenter(LoanOverview);
             // Give the controller access to the main app.
-            // PersonOverviewController controller = loader.getController();
-            // controller.setMainApp(this);
+            LoanOverviewController controller = loader.getController();
+            controller.setMainApp(this);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void showHistoryLoan() {
+        try {
+            // Load person overview.
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(MainApp.class.getResource("view/HistoryLoanOverview.fxml"));
+            AnchorPane LoanOverview = (AnchorPane) loader.load();
+            // Set person overview into the center of root layout.
+            rootLayout.setCenter(LoanOverview);
+            // Give the controller access to the main app.
+            HistoryLoanOverviewController controller = loader.getController();
+            controller.setMainApp(this);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -232,10 +251,15 @@ public class MainApp extends Application {
             Scene scene = new Scene(page);
             dialogStage.setScene(scene);
 
+            // Stringa con i libri disponibili
+            List<String> availableBooks = getBooksData().stream()
+                    .filter(Book::getAvailable)
+                    .map(book -> book.getIsbn() + " -> " + book.getTitle())
+                    .collect(Collectors.toList());
             // Set the person into the controller.
             UserLoanEditDialogController controller = loader.getController();
             controller.setDialogStage(dialogStage);
-            controller.setLoan(loan, user);
+            controller.setLoan(loan, user, availableBooks);
             // Show the dialog and wait until the user closes it
             dialogStage.showAndWait();
             return controller.isOkClicked();

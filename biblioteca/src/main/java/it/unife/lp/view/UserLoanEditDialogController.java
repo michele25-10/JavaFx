@@ -1,6 +1,7 @@
 package it.unife.lp.view;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import it.unife.lp.model.Loan;
 import it.unife.lp.model.User;
@@ -47,12 +48,20 @@ public class UserLoanEditDialogController {
      *
      * @param user
      */
-    public void setLoan(Loan loan, User user) {
+    public void setLoan(Loan loan, User user, List<String> availableBooks) {
         this.loan = loan;
         this.user = user;
-        startLoanDate.setText(DateUtil.format(loan.getStartLoan()));
-        endLoanDate.setText(DateUtil.format(loan.getEndLoan()));
-        isbnTitleComboBox.setValue(loan.getIsbn() + " -> " + loan.getTitle());
+        isbnTitleComboBox.getItems().addAll(availableBooks);
+
+        if (loan != null) {
+            startLoanDate.setText(DateUtil.format(loan.getStartLoan()));
+            endLoanDate.setText(DateUtil.format(loan.getEndLoan()));
+            isbnTitleComboBox.setValue(loan.getIsbn() + " -> " + loan.getTitle());
+        } else {
+            startLoanDate.setText("");
+            endLoanDate.setText("");
+            isbnTitleComboBox.setValue("");
+        }
     }
 
     /**

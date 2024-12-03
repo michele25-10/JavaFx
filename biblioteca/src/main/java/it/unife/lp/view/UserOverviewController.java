@@ -117,14 +117,21 @@ public class UserOverviewController {
             // resetto l'ultimo loan selezionato
             selectedLoan = null;
 
-            loanTable.setItems(mainApp.getLoansData().stream().filter(
-                    loan -> loan.getName().equals(user.getName()) && loan.getSurname().equals(user.getSurname()))
-                    .collect(Collectors.toCollection(FXCollections::observableArrayList)));
+            showUserLoanDetails(user);
         } else {
             // Person is null, remove all the text.
             nameLabel.setText("");
             surnameLabel.setText("");
             telLabel.setText("");
+        }
+    }
+
+    private void showUserLoanDetails(User user) {
+        if (user != null) {
+            loanTable.setItems(mainApp.getLoansData().stream().filter(
+                    loan -> loan.getName().equals(user.getName()) && loan.getSurname().equals(user.getSurname())
+                            && !loan.isFinished())
+                    .collect(Collectors.toCollection(FXCollections::observableArrayList)));
         }
     }
 
@@ -214,6 +221,9 @@ public class UserOverviewController {
                         book.setAvailable(false);
                     }
                 });
+
+                showUserLoanDetails(selectedUser);
+
                 JsonController.writeAll(new File(MainApp.dataDir + File.separator + "loan.json"),
                         mainApp.getLoansData());
                 JsonController.writeAll(new File(MainApp.dataDir + File.separator + "book.json"),
@@ -234,10 +244,10 @@ public class UserOverviewController {
     private void handleEditLoan() {
         User selectedUser = userTable.getSelectionModel().getSelectedItem();
 
-        String previousSelectedIsbn = selectedLoan.getIsbn();
-        String previousTitle = selectedLoan.getTitle();
-
         if (selectedUser != null && selectedLoan != null) {
+            String previousSelectedIsbn = selectedLoan.getIsbn();
+            String previousTitle = selectedLoan.getTitle();
+
             boolean okClicked = mainApp.showUserLoanEditDialog(selectedLoan, selectedUser);
             if (okClicked) {
                 // se ho modificato l'isbn allora devo andare a rendere disponibile il libro di
@@ -258,6 +268,8 @@ public class UserOverviewController {
                         }
                     });
                 }
+
+                showUserLoanDetails(selectedUser);
 
                 JsonController.writeAll(new File(MainApp.dataDir + File.separator +
                         "loan.json"),
@@ -292,7 +304,10 @@ public class UserOverviewController {
                         book.setAvailable(true);
                     }
                 });
-                loanTable.getItems().remove(selectedIndex);
+                mainApp.getLoansData().remove(selectedLoan);
+
+                showUserLoanDetails(selectedUser);
+
                 JsonController.writeAll(new File(MainApp.dataDir + File.separator + "loan.json"),
                         mainApp.getLoansData());
 
@@ -337,6 +352,8 @@ public class UserOverviewController {
                         book.setAvailable(true);
                     }
                 });
+
+                showUserLoanDetails(selectedUser);
 
                 JsonController.writeAll(new File(MainApp.dataDir + File.separator + "loan.json"),
                         mainApp.getLoansData());

@@ -44,4 +44,11 @@ public class RootLayoutController {
         mainApp.showLoan();
     }
 
+    @FXML
+    private void handleHistoryLoan() {
+        System.out.println("Click handle History");
+
+        mainApp.showHistoryLoan();
+    }
+
 }
