@@ -7,11 +7,11 @@
   "endLoan" : [ 2025, 1, 1 ],
   "finished" : false
 }, {
-  "isbn" : "979-85-844-3162-4",
+  "isbn" : "979-12-222-0043-9",
   "name" : "Marco",
   "surname" : "Malanchin",
-  "title" : "Pronoier",
+  "title" : "Never Finished",
   "startLoan" : [ 2024, 12, 2 ],
   "endLoan" : [ 2025, 2, 3 ],
-  "finished" : false
+  "finished" : true
 } ]

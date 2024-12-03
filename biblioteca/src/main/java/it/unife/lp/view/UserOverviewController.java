@@ -248,12 +248,18 @@ public class UserOverviewController {
             String previousSelectedIsbn = selectedLoan.getIsbn();
             String previousTitle = selectedLoan.getTitle();
 
+            System.out.println(selectedLoan.getTitle() + " " + selectedLoan.getIsbn());
+
             boolean okClicked = mainApp.showUserLoanEditDialog(selectedLoan, selectedUser);
             if (okClicked) {
                 // se ho modificato l'isbn allora devo andare a rendere disponibile il libro di
                 // prima ed rendere non dispobibile il nuovo libro
+
+                System.out.println(selectedLoan.getTitle() + " " + selectedLoan.getIsbn());
                 if (!selectedLoan.getIsbn().equals(previousSelectedIsbn)
                         && !selectedLoan.getTitle().equals(previousTitle)) {
+                    System.out.println("Sono qui dentro");
+
                     mainApp.getBooksData().forEach(book -> {
                         // Rendo il libro selezionato precedentemente disponibile
                         if (book.getIsbn().equals(previousSelectedIsbn) && book.getTitle().equals(previousTitle)) {
@@ -277,7 +283,7 @@ public class UserOverviewController {
 
                 JsonController.writeAll(new File(MainApp.dataDir + File.separator +
                         "book.json"),
-                        mainApp.getLoansData());
+                        mainApp.getBooksData());
 
             }
         } else {
