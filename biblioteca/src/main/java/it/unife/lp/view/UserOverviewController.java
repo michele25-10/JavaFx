@@ -90,6 +90,11 @@ public class UserOverviewController {
         // Listen for selection changes and show the person details when changed.
         loanTable.getSelectionModel().selectedItemProperty().addListener(
                 (observable, oldValue, newValue) -> selectedLoan = newValue);
+
+        filterField.textProperty().addListener((observable, oldValue, newValue) -> {
+            // La funzione che vuoi eseguire quando cambia il testo
+            onChangeFilterField(newValue.toLowerCase());
+        });
     }
 
     /**
@@ -214,10 +219,7 @@ public class UserOverviewController {
     }
 
     @FXML
-    private void onChangeFilterField() {
-        String search = filterField.getText().toLowerCase();
-        System.out.println("ricerca: " + search);
-
+    private void onChangeFilterField(String search) {
         if (!search.isEmpty()) {
             ObservableList<User> filteredUsers = mainApp.getUsersData().stream()
                     .filter(user -> user.getName().toLowerCase().contains(search)

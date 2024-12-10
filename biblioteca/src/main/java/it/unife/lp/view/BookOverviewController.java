@@ -61,6 +61,11 @@ public class BookOverviewController {
         // Listen for selection changes and show the person details when changed.
         bookTable.getSelectionModel().selectedItemProperty().addListener(
                 (observable, oldValue, newValue) -> showBookDetails(newValue));
+
+        filterField.textProperty().addListener((observable, oldValue, newValue) -> {
+            // La funzione che vuoi eseguire quando cambia il testo
+            onChangeFilterField(newValue.toLowerCase());
+        });
     }
 
     /**
@@ -154,8 +159,7 @@ public class BookOverviewController {
     }
 
     @FXML
-    private void onChangeFilterField() {
-        String search = filterField.getText().toLowerCase();
+    private void onChangeFilterField(String search) {
         if (!search.isEmpty()) {
             ObservableList<Book> filteredBooks = mainApp.getBooksData().stream()
                     .filter(book -> book.getIsbn().toLowerCase().contains(search)

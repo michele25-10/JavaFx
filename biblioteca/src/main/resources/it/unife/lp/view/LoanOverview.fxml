@@ -30,6 +30,6 @@
          </buttons>
       </ButtonBar>
       <Text layoutX="14.0" layoutY="29.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Lista dei prestiti attivi, non ancora riconsegnati:" />
-      <TextField fx:id="filterField" layoutX="499.0" layoutY="12.0" onKeyPressed="#onChangeFilterField" prefHeight="26.0" prefWidth="238.0" promptText="Cerca..." />
+      <TextField fx:id="filterField" layoutX="499.0" layoutY="12.0" prefHeight="26.0" prefWidth="238.0" promptText="Cerca..." />
    </children>
 </AnchorPane>
