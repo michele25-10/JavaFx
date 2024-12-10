@@ -4,6 +4,7 @@ import java.io.File;
 
 import it.unife.lp.MainApp;
 import it.unife.lp.model.User;
+import it.unife.lp.util.CFUtil;
 import it.unife.lp.util.JsonController;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -18,10 +19,14 @@ public class UserEditDialogController {
     private TextField surnameField;
     @FXML
     private TextField telField;
+    @FXML
+    private TextField cfField;
 
     private Stage dialogStage;
     private User user;
     private boolean okClicked = false;
+
+    private MainApp mainApp;
 
     /**
      * Initializesthe controller class. This method is automatically called
@@ -40,6 +45,10 @@ public class UserEditDialogController {
         this.dialogStage = dialogStage;
     }
 
+    public void setMainApp(MainApp mainApp) {
+        this.mainApp = mainApp;
+    }
+
     /**
      * Sets the person to be edited in the dialog.
      *
@@ -50,6 +59,7 @@ public class UserEditDialogController {
         nameField.setText(user.getName());
         surnameField.setText(user.getSurname());
         telField.setText(user.getTel());
+        cfField.setText(user.getCF());
     }
 
     /**
@@ -70,6 +80,7 @@ public class UserEditDialogController {
             user.setName(nameField.getText());
             user.setSurname(surnameField.getText());
             user.setTel(telField.getText());
+            user.setCF(cfField.getText());
             okClicked = true;
             dialogStage.close();
         }
@@ -97,9 +108,19 @@ public class UserEditDialogController {
             errorMessage += "Cognome non valido!\n";
         }
         if (telField.getText() == null || telField.getText().length() == 0 || telField.getText().length() > 10) {
-
             errorMessage += "Numero di telefono non valido!\n";
         }
+        if (CFUtil.isCodiceFiscaleValido(cfField.getText())) {
+            errorMessage += "Codice Fiscale non valido!\n";
+        }
+
+        for (User u : mainApp.getUsersData()) {
+            if (u.getCF().equals(cfField.getText())) {
+                errorMessage += "Utente già presente!\nCodice Fiscale già esistente!\n";
+                break;
+            }
+        }
+
         if (errorMessage.length() == 0) {
             return true;
         } else {

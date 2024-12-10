@@ -33,6 +33,8 @@ public class UserOverviewController {
     @FXML
     private Label telLabel;
     @FXML
+    private Label cfLabel;
+    @FXML
     private TextField filterField;
 
     @FXML
@@ -112,6 +114,7 @@ public class UserOverviewController {
             // Fill the labels with info from the person object.
             nameLabel.setText(user.getName());
             surnameLabel.setText(user.getSurname());
+            cfLabel.setText(user.getCF());
             telLabel.setText(user.getTel());
 
             // resetto l'ultimo loan selezionato
@@ -123,6 +126,7 @@ public class UserOverviewController {
             nameLabel.setText("");
             surnameLabel.setText("");
             telLabel.setText("");
+            cfLabel.setText("");
         }
     }
 

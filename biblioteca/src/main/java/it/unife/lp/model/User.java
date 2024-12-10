@@ -9,18 +9,20 @@ public class User {
     private final StringProperty name;
     private final StringProperty surname;
     private final StringProperty tel;
+    private final StringProperty cf;
 
     // Costruttore predefinito (necessario per Jackson)
     public User() {
-        this(null, null, null);
+        this(null, null, null, null);
     }
 
     // Costruttore con parametri
-    public User(String name, String surname, String tel) {
+    public User(String name, String surname, String tel, String cf) {
         this.name = new SimpleStringProperty(name);
         this.surname = new SimpleStringProperty(surname);
         this.tel = new SimpleStringProperty(tel);
-    }
+        this.cf = new SimpleStringProperty(cf);
+    };
 
     // Getter per name
     public String getName() {
@@ -59,6 +61,19 @@ public class User {
 
     public StringProperty telProperty() {
         return tel;
+    }
+
+    // Getter per surname
+    public String getCF() {
+        return cf.get();
+    }
+
+    public void setCF(String surname) {
+        this.cf.set(surname);
+    }
+
+    public StringProperty cfProperty() {
+        return cf;
     }
 
 }

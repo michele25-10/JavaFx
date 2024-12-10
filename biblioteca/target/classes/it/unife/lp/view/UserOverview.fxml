@@ -37,12 +37,13 @@
                      <items>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                            <children>
-                              <GridPane layoutY="35.0" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="172.0" prefWidth="400.8" AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="40.0">
+                              <GridPane layoutY="35.0" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="150.0" prefWidth="400.8" AnchorPane.bottomAnchor="80.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="40.0">
                                  <columnConstraints>
                                     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                                     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                                  </columnConstraints>
                                  <rowConstraints>
+                                    <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="60.0" vgrow="SOMETIMES" />
                                     <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="60.0" vgrow="SOMETIMES" />
                                     <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="60.0" vgrow="SOMETIMES" />
                                     <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="60.0" vgrow="SOMETIMES" />
@@ -54,10 +55,12 @@
                                     <Label fx:id="nameLabel" text="Dettagli..." GridPane.columnIndex="1" />
                                     <Label fx:id="surnameLabel" text="Dettagli..." GridPane.columnIndex="1" GridPane.rowIndex="1" />
                                     <Label fx:id="telLabel" text="Dettagli..." GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                    <Label text="Codice Fiscale" GridPane.rowIndex="3" />
+                                    <Label fx:id="cfLabel" text="Dettagli..." GridPane.columnIndex="1" GridPane.rowIndex="3" />
                                  </children>
                               </GridPane>
                               <Text layoutX="10.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Dati personali dell'utente" />
-                              <ButtonBar layoutX="204.0" layoutY="236.0" prefHeight="40.0" prefWidth="200.0" AnchorPane.bottomAnchor="30.0" AnchorPane.rightAnchor="30.0">
+                              <ButtonBar layoutX="204.0" layoutY="236.0" prefHeight="40.0" prefWidth="200.0" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="30.0">
                                  <buttons>
                                     <Button mnemonicParsing="false" onAction="#handleNewUser" text="Nuovo" />
                                     <Button mnemonicParsing="false" onAction="#handleEditUser" text="Modifica" />
