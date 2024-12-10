@@ -133,7 +133,7 @@ public class UserOverviewController {
     private void showUserLoanDetails(User user) {
         if (user != null) {
             loanTable.setItems(mainApp.getLoansData().stream().filter(
-                    loan -> loan.getName().equals(user.getName()) && loan.getSurname().equals(user.getSurname())
+                    loan -> loan.getCF().equals(user.getCF())
                             && !loan.isFinished())
                     .collect(Collectors.toCollection(FXCollections::observableArrayList)));
         }
@@ -142,9 +142,18 @@ public class UserOverviewController {
     @FXML
     private void handleDeleteUser() {
         int selectedIndex = userTable.getSelectionModel().getSelectedIndex();
+        User selectedUser = userTable.getSelectionModel().getSelectedItem();
         if (selectedIndex >= 0) {
+            // rimuovo quell'utente dalla lista degli utenti
             userTable.getItems().remove(selectedIndex);
+
+            // rimuovo i prestiti di quell'utente dalla lista dei prestiti
+
+            // I libri che erano stati prestati a quell'utente tornano ad essere disponibili
+
             JsonController.writeAll(new File(MainApp.dataDir + File.separator + "user.json"), mainApp.getUsersData());
+            JsonController.writeAll(new File(MainApp.dataDir + File.separator + "loan.json"), mainApp.getLoansData());
+            JsonController.writeAll(new File(MainApp.dataDir + File.separator + "book.json"), mainApp.getBooksData());
         } else {
             // Nothing selected.
             Alert alert = new Alert(AlertType.WARNING);

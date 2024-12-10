@@ -57,12 +57,6 @@ public class HistoryLoanOverviewController {
      */
     @FXML
     private void initialize() {
-        // Initialize the person table with the two columns.
-        nameColumn.setCellValueFactory(
-                cellData -> cellData.getValue().nameProperty());
-        surnameColumn.setCellValueFactory(
-                cellData -> cellData.getValue().surnameProperty());
-
         titleColumn.setCellValueFactory(
                 cellData -> cellData.getValue().titleProperty());
         isbnColumn.setCellValueFactory(
@@ -70,7 +64,7 @@ public class HistoryLoanOverviewController {
         startLoanColumn.setCellValueFactory(
                 cellData -> cellData.getValue().startLoanProperty());
         endLoanColumn.setCellValueFactory(
-                cellData -> cellData.getValue().startLoanProperty());
+                cellData -> cellData.getValue().endLoanProperty());
     }
 
     /**
@@ -80,20 +74,39 @@ public class HistoryLoanOverviewController {
      */
     public void setMainApp(MainApp mainApp) {
         this.mainApp = mainApp;
-        // Add observable list data to the table
+
         telColumn.setCellValueFactory(
                 cellData -> {
                     Loan loan = cellData.getValue();
                     String tel = "";
                     for (User user : mainApp.getUsersData())
-                        if (user.getName().equals(loan.getName())
-                                && user.getSurname().equals(loan.getSurname())) {
+                        if (user.getCF().equals(loan.getCF())) {
                             tel = user.getTel();
                         }
                     return new SimpleStringProperty(tel);
                 });
 
-        System.out.println(mainApp.getLoansData());
+        // Initialize the person table with the two columns.
+        nameColumn.setCellValueFactory(
+                cellData -> {
+                    Loan loan = cellData.getValue();
+                    String tel = "";
+                    for (User user : mainApp.getUsersData())
+                        if (user.getCF().equals(loan.getCF())) {
+                            tel = user.getName();
+                        }
+                    return new SimpleStringProperty(tel);
+                });
+        surnameColumn.setCellValueFactory(
+                cellData -> {
+                    Loan loan = cellData.getValue();
+                    String tel = "";
+                    for (User user : mainApp.getUsersData())
+                        if (user.getCF().equals(loan.getCF())) {
+                            tel = user.getSurname();
+                        }
+                    return new SimpleStringProperty(tel);
+                });
 
         loanTable.setItems(mainApp.getLoansData().stream()
                 .filter(loan -> loan.isFinished())
@@ -101,19 +114,42 @@ public class HistoryLoanOverviewController {
                 .collect(Collectors.toCollection(FXCollections::observableArrayList)));
     }
 
+    /**
+     * Metodo di utilità per controllare se una stringa contiene un'altra stringa in
+     * modo case-insensitive.
+     *
+     * @param cellValue  Il valore della cella.
+     * @param searchText Il testo da cercare.
+     * @return True se il valore della cella contiene il testo di ricerca,
+     *         altrimenti False.
+     */
+    private boolean containsIgnoreCase(String cellValue, String searchText) {
+        return cellValue != null && cellValue.toLowerCase().contains(searchText);
+    }
+
     @FXML
     private void onChangeFilterField() {
         String search = filterField.getText().toLowerCase();
         if (!search.isEmpty()) {
-            ObservableList<Loan> filteredLoans = mainApp.getLoansData().stream()
-                    .filter(loan -> loan.isFinished() && (loan.getName().toLowerCase()
-                            .contains(search)
-                            || loan.getSurname().toLowerCase().contains(search)
-                            || loan.getTitle().toLowerCase().contains(search)
-                            || loan.getIsbn().toLowerCase().contains(search)))
-                    .sorted((loan1, loan2) -> loan1.getEndLoan().compareTo(loan2.getEndLoan()))
+            ObservableList<Loan> filteredLoans = loanTable.getItems().stream()
+                    .filter(loan -> {
+                        // Ottieni i valori delle celle e controlla se contengono il testo di
+                        // ricerca
+                        return containsIgnoreCase(nameColumn.getCellData(loan), search) ||
+                                containsIgnoreCase(surnameColumn.getCellData(loan),
+                                        search)
+                                ||
+                                containsIgnoreCase(telColumn.getCellData(loan), search)
+                                ||
+                                containsIgnoreCase(titleColumn.getCellData(loan),
+                                        search)
+                                ||
+                                containsIgnoreCase(isbnColumn.getCellData(loan),
+                                        search);
+                    })
                     .collect(Collectors.toCollection(FXCollections::observableArrayList));
 
+            // Aggiorna la TableView con i dati filtrati
             loanTable.setItems(filteredLoans);
         } else {
             // Se la ricerca è vuota, ripristina la lista originale

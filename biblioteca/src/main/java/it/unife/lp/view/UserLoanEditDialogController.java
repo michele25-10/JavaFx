@@ -84,8 +84,7 @@ public class UserLoanEditDialogController {
             try {
                 loan.setIsbn(selctedIsbnTitleArr[0]);
                 loan.setTitle(selctedIsbnTitleArr[1]);
-                loan.setName(user.getName());
-                loan.setSurname(user.getSurname());
+                loan.setCF(user.getCF());
                 loan.setEndLoan(DateUtil.parse(endLoanDate.getText()));
                 loan.setStartLoan(DateUtil.parse(startLoanDate.getText()));
             } catch (Exception e) {
