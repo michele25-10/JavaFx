@@ -136,6 +136,9 @@ public class UserOverviewController {
                     loan -> loan.getCF().equals(user.getCF())
                             && !loan.isFinished())
                     .collect(Collectors.toCollection(FXCollections::observableArrayList)));
+        } else {
+            // Imposta una lista vuota nella TableView
+            loanTable.setItems(FXCollections.observableArrayList());
         }
     }
 
@@ -147,10 +150,24 @@ public class UserOverviewController {
             // rimuovo quell'utente dalla lista degli utenti
             userTable.getItems().remove(selectedIndex);
 
-            // rimuovo i prestiti di quell'utente dalla lista dei prestiti
+            // rimuovo i prestiti di quell'utente dalla lista dei prestiti e setto i
+            // libri prestiti come di nuovo disponibili
+            mainApp.getLoansData().removeIf(l -> {
+                if (l.getCF().equals(selectedUser.getCF())) {
+                    for (Book b : mainApp.getBooksData()) {
+                        if (b.getIsbn().equals(l.getIsbn())) {
+                            // Imposta il libro come disponibile
+                            b.setAvailable(true);
+                        }
+                    }
+                    return true; // Rimuove questo elemento
+                }
+                return false; // Mantiene l'elemento
+            });
 
-            // I libri che erano stati prestati a quell'utente tornano ad essere disponibili
+            showUserLoanDetails(null);
 
+            // Salvo su file le modifiche apportate
             JsonController.writeAll(new File(MainApp.dataDir + File.separator + "user.json"), mainApp.getUsersData());
             JsonController.writeAll(new File(MainApp.dataDir + File.separator + "loan.json"), mainApp.getLoansData());
             JsonController.writeAll(new File(MainApp.dataDir + File.separator + "book.json"), mainApp.getBooksData());

@@ -4,7 +4,7 @@
   "author" : "David Goggins",
   "pubblicationYear" : 2024,
   "type" : "Crescita Personale",
-  "available" : true
+  "available" : false
 }, {
   "isbn" : "979-85-844-3162-4",
   "title" : "Pronoier",
@@ -25,5 +25,5 @@
   "author" : "Cal Newport",
   "pubblicationYear" : 2023,
   "type" : "Crescita personale",
-  "available" : false
+  "available" : true
 } ]

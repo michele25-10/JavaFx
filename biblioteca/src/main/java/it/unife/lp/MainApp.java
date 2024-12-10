@@ -23,6 +23,7 @@ import it.unife.lp.model.Book;
 import it.unife.lp.model.Loan;
 import it.unife.lp.model.User;
 import it.unife.lp.util.JsonController;
+import it.unife.lp.view.BookAvailableOverviewController;
 import it.unife.lp.view.BookEditDialogController;
 import it.unife.lp.view.BookOverviewController;
 import it.unife.lp.view.HistoryLoanOverviewController;
@@ -145,6 +146,22 @@ public class MainApp extends Application {
             rootLayout.setCenter(bookOverview);
             // Give the controller access to the main app.
             BookOverviewController controller = loader.getController();
+            controller.setMainApp(this);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void showAvailableBook() {
+        try {
+            // Load person overview.
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(MainApp.class.getResource("view/BookAvailableOverview.fxml"));
+            AnchorPane bookAvailableOverview = (AnchorPane) loader.load();
+            // Set person overview into the center of root layout.
+            rootLayout.setCenter(bookAvailableOverview);
+            // Give the controller access to the main app.
+            BookAvailableOverviewController controller = loader.getController();
             controller.setMainApp(this);
         } catch (IOException e) {
             e.printStackTrace();

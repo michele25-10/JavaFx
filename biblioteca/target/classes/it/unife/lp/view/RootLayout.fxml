@@ -11,7 +11,8 @@
         <menus>
           <Menu mnemonicParsing="false" text="Libri">
             <items>
-              <MenuItem onAction="#handleBook" text="Visualizza Libri" />
+              <MenuItem onAction="#handleBook" text="Tutti i libri" />
+                  <MenuItem onAction="#handleAvailableBook" text="Libri disponibili" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Utenti">

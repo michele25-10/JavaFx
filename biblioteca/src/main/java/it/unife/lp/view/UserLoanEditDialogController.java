@@ -117,6 +117,9 @@ public class UserLoanEditDialogController {
         if (!DateUtil.validDate(endLoanDate.getText())) {
             errorMessage += "Data di fine prestito non valida!\n";
         }
+        if (!DateUtil.isAfter(endLoanDate.getText(), startLoanDate.getText())) {
+            errorMessage += "Data di fine deve essere dopo la data di inizio!\n";
+        }
         if (isbnTitleComboBox.getValue().isEmpty()) {
             errorMessage += "ISBN e titolo non valido!\n";
         }

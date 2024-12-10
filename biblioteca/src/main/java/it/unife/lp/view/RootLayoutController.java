@@ -38,6 +38,13 @@ public class RootLayoutController {
     }
 
     @FXML
+    private void handleAvailableBook() {
+        System.out.println("Click handle Book");
+
+        mainApp.showAvailableBook();
+    }
+
+    @FXML
     private void handleLoan() {
         System.out.println("Click handle Loan");
 

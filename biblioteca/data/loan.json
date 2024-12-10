@@ -3,13 +3,6 @@
   "cf" : "GBRMHL620N25R10L",
   "title" : "Never Finished",
   "startLoan" : [ 2024, 12, 10 ],
-  "endLoan" : [ 2025, 1, 11 ],
-  "finished" : true
-}, {
-  "isbn" : "978-88-3620-015-3",
-  "cf" : "GBRMHL620N25R10L",
-  "title" : "Deep work",
-  "startLoan" : [ 2024, 12, 10 ],
-  "endLoan" : [ 2024, 2, 15 ],
+  "endLoan" : [ 2025, 1, 15 ],
   "finished" : false
 } ]
