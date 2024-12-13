@@ -1,8 +1,0 @@
-[ {
-  "isbn" : "979-12-222-0043-9",
-  "cf" : "GBRMHL620N25R10L",
-  "title" : "Never Finished",
-  "startLoan" : [ 2024, 12, 10 ],
-  "endLoan" : [ 2025, 1, 15 ],
-  "finished" : false
-} ]

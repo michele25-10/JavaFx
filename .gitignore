@@ -1,3 +1,8 @@
+#Data json serializzati
+biblioteca/data/
+
+.vscode/*
+
 ### Java template
 *.class
 
@@ -60,3 +65,4 @@ crashlytics.properties
 crashlytics-build.properties
 
 # Created by .ignore support plugin (hsz.mobi)
+
