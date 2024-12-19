@@ -245,6 +245,7 @@ public class MainApp extends Application {
             // Set the person into the controller.
             BookEditDialogController controller = loader.getController();
             controller.setDialogStage(dialogStage);
+            controller.setMainApp(this);
             controller.setBook(book);
             // Show the dialog and wait until the user closes it
             dialogStage.showAndWait();

@@ -25,6 +25,7 @@ public class BookEditDialogController {
     @FXML
     private TextField pubblicationYearField;
 
+    private MainApp mainApp;
     private Stage dialogStage;
     private Book book;
     private boolean okClicked = false;
@@ -44,6 +45,15 @@ public class BookEditDialogController {
      */
     public void setDialogStage(Stage dialogStage) {
         this.dialogStage = dialogStage;
+    }
+
+    /**
+     * Is called by the main application to give a reference back to itself.
+     *
+     * @param mainApp
+     */
+    public void setMainApp(MainApp mainApp) {
+        this.mainApp = mainApp;
     }
 
     /**
@@ -117,6 +127,14 @@ public class BookEditDialogController {
         } catch (Exception e) {
             errorMessage += "Anno di pubblicazione non valido!\n";
         }
+
+        for (Book b : mainApp.getBooksData()) {
+            if (b.getIsbn().equals(isbnField.getText())) {
+                errorMessage += "Codice ISBN già presente, ricontrollalo!\n";
+                break;
+            }
+        }
+
         if (errorMessage.length() == 0) {
             return true;
         } else {
